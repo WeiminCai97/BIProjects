@@ -66,8 +66,8 @@ Raw Parquet (NYC TLC)
  
 | Model | Description | Key Question Answered |
 |---|---|---|
-| `mart_daily_trip_summary` | One row per day per payment type | Revenue by day, avg fare, tip rate |
-| `mart_hourly_demand` | One row per hour per pickup zone | When/where is demand highest? |
+| `mart_daily_trip_summary` | Revenue and trip stats grouped by day + payment method | Revenue by day, avg fare, tip rate |
+| `mart_hourly_demand` | Demand patterns by hour and pickup zone | When/where is demand highest? |
 | `mart_payment_analysis` | Tip behavior by payment method + fare range | Do credit card users tip more? |
  
 ---
