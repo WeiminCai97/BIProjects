@@ -1,0 +1,77 @@
+# =============================================================
+#  models/staging/stg_yellow_taxi_trips.yml
+#
+#  This file does two things:
+#    1. Documents every column (dbt uses this to build your data catalog)
+#    2. Defines tests — dbt checks these every time you run  dbt test
+# =============================================================
+
+version: 2
+
+models:
+  - name: stg_yellow_taxi_trips
+    description: >
+      Cleaned and renamed NYC Yellow Taxi trip records for January 2024.
+      This is the single source of truth for all downstream models.
+      Bad rows (zero distance, negative fares, impossible timestamps) are removed.
+
+    columns:
+
+      - name: trip_id
+        description: "Surrogate key — unique identifier for each trip (hashed from vendor + timestamps + locations)"
+        tests:
+          - unique           # Every trip_id must appear exactly once
+          - not_null         # No row can have a missing trip_id
+
+      - name: vendor_id
+        description: "1 = Creative Mobile Technologies, 2 = VeriFone"
+        tests:
+          - not_null
+
+      - name: pickup_at
+        description: "Timestamp when the taxi meter was started"
+        tests:
+          - not_null
+
+      - name: dropoff_at
+        description: "Timestamp when the taxi meter was stopped"
+        tests:
+          - not_null
+
+      - name: passenger_count
+        description: "Number of passengers in the vehicle (entered by driver)"
+
+      - name: trip_distance
+        description: "Distance traveled in miles (always > 0 after filtering)"
+        tests:
+          - not_null
+
+      - name: pickup_location_id
+        description: "TLC Taxi Zone ID for the pickup location (1–263)"
+
+      - name: dropoff_location_id
+        description: "TLC Taxi Zone ID for the dropoff location (1–263)"
+
+      - name: payment_type
+        description: "How the passenger paid"
+        tests:
+          - not_null
+          - accepted_values:  # dbt will FAIL if any value outside this list appears
+              arguments:
+              values: [0, 1, 2, 3, 4, 5, 6]
+
+      - name: fare_amount
+        description: "Base fare in dollars calculated by the meter (always > 0 after filtering)"
+        tests:
+          - not_null
+
+      - name: tip_amount
+        description: "Tip amount in dollars. Only populated for credit card payments."
+
+      - name: total_amount
+        description: "Total charged to the passenger including all fees and surcharges"
+        tests:
+          - not_null
+
+      - name: trip_duration_minutes
+        description: "Calculated: minutes between pickup and dropoff (always positive after filtering)"

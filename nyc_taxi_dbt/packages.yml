@@ -1,0 +1,13 @@
+# =============================================================
+#  packages.yml
+#  Lists extra dbt packages your project uses.
+#  Run  dbt deps  in Terminal to install them.
+#
+#  dbt_utils gives you helper macros like:
+#    generate_surrogate_key()  → creates a unique ID from columns
+#    date_spine()              → generates a date range table
+# =============================================================
+
+packages:
+  - package: dbt-labs/dbt_utils
+    version: 1.2.0

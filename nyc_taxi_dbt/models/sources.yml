@@ -1,0 +1,72 @@
+# =============================================================
+#  models/sources.yml
+#  Registers your raw DuckDB table as a dbt "source".
+#  This is what lets you write  {{ source('raw', 'yellow_taxi_trips') }}
+#  in your staging model instead of a hardcoded table name.
+# =============================================================
+
+version: 2
+
+sources:
+  - name: raw
+    schema: raw                  # Matches the schema created in load_data.py
+    description: "Raw NYC Yellow Taxi trip data — loaded directly from TLC Parquet files. Never modified."
+
+    tables:
+      - name: yellow_taxi_trips
+        description: >
+          One row per taxi trip in New York City.
+          Source: NYC Taxi & Limousine Commission (TLC)
+          URL: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+
+        columns:
+          - name: VendorID
+            description: "1 = Creative Mobile Technologies, 2 = VeriFone Inc."
+
+          - name: tpep_pickup_datetime
+            description: "Timestamp when the meter was engaged (trip started)"
+
+          - name: tpep_dropoff_datetime
+            description: "Timestamp when the meter was disengaged (trip ended)"
+
+          - name: passenger_count
+            description: "Number of passengers (driver-entered value)"
+
+          - name: trip_distance
+            description: "Trip distance in miles as reported by the taximeter"
+
+          - name: RatecodeID
+            description: "1=Standard, 2=JFK, 3=Newark, 4=Nassau/Westchester, 5=Negotiated, 6=Group ride"
+
+          - name: PULocationID
+            description: "TLC Taxi Zone ID where the trip started"
+
+          - name: DOLocationID
+            description: "TLC Taxi Zone ID where the trip ended"
+
+          - name: payment_type
+            description: "1=Credit card, 2=Cash, 3=No charge, 4=Dispute, 5=Unknown, 6=Voided"
+
+          - name: fare_amount
+            description: "Base fare calculated by the meter"
+
+          - name: extra
+            description: "Miscellaneous extras (rush hour/overnight surcharges)"
+
+          - name: mta_tax
+            description: "MTA tax automatically triggered based on metered rate"
+
+          - name: tip_amount
+            description: "Tip amount — auto-populated for credit card tips. Cash tips not recorded."
+
+          - name: tolls_amount
+            description: "Total of all tolls paid during the trip"
+
+          - name: improvement_surcharge
+            description: "Improvement surcharge assessed on hailed trips at the flag drop"
+
+          - name: total_amount
+            description: "Total amount charged to passengers (excludes cash tips)"
+
+          - name: congestion_surcharge
+            description: "Congestion surcharge for trips in/from Manhattan south of 96th St"
