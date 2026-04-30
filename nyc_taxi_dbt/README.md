@@ -89,6 +89,8 @@ Tests defined in `stg_yellow_taxi_trips.yml`:
 ## Data Source
 https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet
 
+---
 
-
+## Improve
+Tests should be implemented at the Intermediate and Marts layers, especially for Mart models, since those datasets directly inform downstream business decisions.
 
